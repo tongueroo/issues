@@ -2,14 +2,9 @@ defmodule Issues.GithubIssues do
   @user_agent ["User-agent": "Elixir tung@email.com"]
   @github_url Application.get_env(:issues, :github_url)
 
-  def github_url2 do
-    @github_url2
-  end
-  
-
   # list = Issues.GithubIssues.fetch("elixir-lang", "elixir", 5)
   def fetch(user, project, count) do
-    o = issues_url(user, project)
+    issues_url(user, project)
       |> HTTPoison.get(@user_agent)
       |> handle_response
       |> convert_to_hash_dict
@@ -32,7 +27,6 @@ defmodule Issues.GithubIssues do
   def sort_asc(list) do
     Enum.sort(list, fn(a,b) -> a["created_at"] <= b["created_at"] end)
   end
-  
 
   def handle_response({:ok, %HTTPoison.Response{body: body}}) do
     { :ok, :jsx.decode(body) }
@@ -42,13 +36,20 @@ defmodule Issues.GithubIssues do
     { :error, :jsx.decode(body) }
   end
 
+  # def halt_if_bad_payload(list) do
+  #   message = Enum.into(list, HashDict.new)["Message"]
+  #   if message == "Not Found" do
+  #     IO.puts "Not a list returned from the github api.  What was returned:"
+  #     IO.inspect list
+  #     System.halt(0)
+  #   end
+  # end
   def convert_to_hash_dict({:ok, list}) do
-    # List.first(body) |> Enum.into(HashDict.new)
-    list
-      |> Enum.map(&(Enum.into(&1, HashDict.new)))
+    # halt_if_bad_payload(list)
+    # IO.inspect list
+    list |> Enum.map(&(Enum.into(&1, HashDict.new)))
   end
   
-
   defp issues_url(user, project) do
     url = "#{@github_url}/repos/#{user}/#{project}/issues"
     # IO.inspect url

@@ -4,7 +4,7 @@ defmodule Issues.CLI do
     Handle the command line parsing
   """
 
-  def run(argv) do
+  def main(argv) do
     argv
       |> parse_args
       |> process
