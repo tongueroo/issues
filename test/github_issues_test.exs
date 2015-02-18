@@ -1,13 +1,18 @@
 defmodule GithubIssuesTest do
   use ExUnit.Case
-  import Issues.GithubIssues, only: [ sort_asc: 1 ]
+  import Issues.GithubIssues, only: [ sort_asc: 1,
+                                      convert_to_hash_dict: 1 ]
 
   test "sort asc" do
-    sorted = Enum.map([[{"created_at", "a"}], [{"created_at", "b"}], [{"created_at", "c"}]], &(Enum.into(&1, HashDict.new)))
-    assert sort_asc(fake_list) == sorted
+    list = fake_list(["c", "a", "b"])
+    sorted = sort_asc(list)
+    letters = for i <- sorted, do: i["created_at"]
+    assert letters == ~w{a b c}
   end
 
-  defp fake_list do
-    Enum.map([[{"created_at", "c"}], [{"created_at", "a"}], [{"created_at", "b"}]], &(Enum.into(&1, HashDict.new)))
+  defp fake_list(values) do
+    data = for i <- values,
+           do: [{"created_at", i}, {"blah", "xxx"}]
+    convert_to_hash_dict({:ok, data})
   end
 end
