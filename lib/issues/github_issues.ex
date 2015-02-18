@@ -14,11 +14,23 @@ defmodule Issues.GithubIssues do
       |> handle_response
       |> convert_to_hash_dict
       |> sort_asc
-    # IO.inspect o
+      |> subset(count)
+      |> pretty
+  end
+
+  def pretty(list) do
+    IO.puts "title created_at"
+    for i <- list do
+      IO.puts "#{i["title"]} #{i["created_at"]}"
+    end
+  end
+
+  def subset(list, count) do
+    Enum.take(list, count)
   end
 
   def sort_asc(list) do
-    Enum.sort(list, fn(a,b) -> a["created_at"] >= b["created_at"] end)
+    Enum.sort(list, fn(a,b) -> a["created_at"] <= b["created_at"] end)
   end
   
 
