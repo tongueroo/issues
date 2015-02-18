@@ -1,0 +1,8 @@
+%{"exjson": {:hex, :exjson, "0.3.0"},
+  "exjsx": {:hex, :exjsx, "3.1.0"},
+  "hackney": {:hex, :hackney, "1.0.6"},
+  "httpoison": {:hex, :httpoison, "0.6.2"},
+  "idna": {:hex, :idna, "1.0.2"},
+  "jsex": {:hex, :jsex, "2.0.0"},
+  "jsx": {:hex, :jsx, "2.4.0"},
+  "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.1"}}
