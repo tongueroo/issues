@@ -49,11 +49,18 @@ defmodule Issues.GithubIssues do
   #     System.halt(0)
   #   end
   # end
-  def convert_to_hash_dict({:ok, list}) do
-    # halt_if_bad_payload(list)
-    IO.puts "********* whats in list"
+
+  def convert_to_hash_dict({:ok, list = [{"message", "Not Found"} | _]}) do
+    IO.puts "Not a list returned from the github api. What was returned:"
     IO.inspect list
-    IO.puts "********* whats in list"
+    System.halt(0)
+  end
+ 
+   def convert_to_hash_dict({:ok, list}) do
+    # halt_if_bad_payload(list)
+    # IO.puts "********* whats in list"
+    # IO.inspect list
+    # IO.puts "********* whats in list"
     list |> Enum.map(&(Enum.into(&1, HashDict.new)))
   end
   
