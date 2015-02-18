@@ -1,12 +1,27 @@
 defmodule Issues.CLI do
-  @default_count "4"
+  @default_count 4
   @moduledoc """
     Handle the command line parsing
   """
 
   def run(argv) do
-    parse_args(argv)
+    argv
+      |> parse_args
+      |> process
   end
+
+  def process(:help) do
+    IO.puts """
+    usage: issue <user> <project> [ count | #{@default_count} ]
+    """
+    System.halt(0)
+  end
+
+  def process({user, project, count}) do
+    Issues.GithubIssues.fetch(user, project, count)
+  end
+  
+  
 
   @doc """
   `argv` can be -h or --help, which returns :help
@@ -26,7 +41,9 @@ defmodule Issues.CLI do
       -> :help
 
       { _, [user, project, count], _}
-      -> {user, project, count}
+      ->
+        {count, _} = Integer.parse(count) 
+        {user, project, count}
 
       { _, [user, project], _}
       -> {user, project, @default_count}

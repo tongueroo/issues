@@ -16,11 +16,11 @@ defmodule CliTest do
   end
 
   test "three values return if 3 values passed" do
-    assert parse_args(["tongueroo", "hello", "1"]) == {"tongueroo", "hello", "1"}
+    assert parse_args(["tongueroo", "hello", "1"]) == {"tongueroo", "hello", 1}
   end
 
   test "count uses defaults if 2 values passed" do
-    assert parse_args(["tongueroo", "hello"]) == {"tongueroo", "hello", "4"}
+    assert parse_args(["tongueroo", "hello"]) == {"tongueroo", "hello", 4}
   end
 
 end
