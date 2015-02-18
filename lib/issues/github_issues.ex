@@ -51,7 +51,9 @@ defmodule Issues.GithubIssues do
   # end
   def convert_to_hash_dict({:ok, list}) do
     # halt_if_bad_payload(list)
-    # IO.inspect list
+    IO.puts "********* whats in list"
+    IO.inspect list
+    IO.puts "********* whats in list"
     list |> Enum.map(&(Enum.into(&1, HashDict.new)))
   end
   
